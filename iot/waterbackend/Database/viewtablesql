@@ -1,0 +1,22 @@
+create view  `view_water`  AS  
+select `a`.`id` AS `id`,
+`a`.`waterFlow` AS `waterFlow`,
+`a`.`waterOverFlow` AS `waterOverFlow`,
+`b`.`user_id` AS `user_id`,
+`a`.`deviceId` AS `deviceId`,
+`a`.`createdAt` AS `createdAt`,
+`a`.`waterLevel` AS `waterLevel`,
+`b`.`location_name` AS `location_name`,
+`b`.`tank_name` AS `tank_name`,
+`b`.`tank_type` AS `tank_type`,
+`b`.`min_level` AS `min_level`,
+`b`.`max_level` AS `max_level`,
+`b`.`loc_lat` AS `loc_lat`,
+`b`.`loc_long` AS `loc_long`,
+`b`.`total_volume` AS `total_volume`,((`b`.`total_volume` * `a`.`waterLevel`) / 100) AS `avail_water`,
+`a`.`deviceImei` AS `deviceImei`,
+`a`.`serial` AS `pkt_serial`,
+`a`.`isLive` AS `isLive` 
+from (`waterlevel` `a` join `tankdetails` `b`) 
+where ((`a`.`deviceId` = `b`.`device_id`) and (`b`.`tank_type` = `a`.`tankType`)) ;
+COMMIT;
